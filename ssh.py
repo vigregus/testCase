@@ -19,8 +19,10 @@ if __name__ == '__main__':
     parser.add_argument('--cmd', action='store', dest='cmd', help='cmd name')
 
     args = parser.parse_args()
+
     print(args.hosts)
     print(args.password)
     print(args.cmd)
-
-    sshConnect(args.hosts,args.user,args.password,args.cmd)
+    for ip in args.hosts.split(','):
+        print(ip)
+    sshConnect(args.hosts, args.user, args.password, args.cmd)
