@@ -1,0 +1,17 @@
+all tests were completed on Ubuntu 
+### How to Run ssh.py ###
+python3 ssh.py --action connect --hosts 178.218.216.142,1.1.1.1,178.218.210.38 --password <password> --user <user> --cmd /tmp/1.sh
+
+###in order to check parrallel runs, it is needed to create the following script### 
+cat <<EOF > /tmp/1.sh
+date +%s
+sleep 5
+date +%s
+EOF
+
+chmod +x /tmp/1.sh
+
+
+### how to run dd.py ###
+python3 dd.py --countZ 5 --sizeY 10000 --freeX 100000
+
