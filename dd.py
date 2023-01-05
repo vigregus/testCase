@@ -5,6 +5,13 @@ import psutil
 import sys
 import os
 
+def shellcmd(cmd):
+    try:
+        result = subprocess.run(cmd,shell=True,stdout=subprocess.PIPE, stderr=subprocess.STDOUT,check=True)
+        return result
+    except Exception as e:
+        sys.exit(0)
+    
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--countZ', action='store', dest='z', help='user name')
@@ -39,27 +46,16 @@ if __name__ == '__main__':
 
     print("Work folder is: "+work_folder)
     if not os.path.isdir(work_folder):
-        try:
-            subprocess.run("mkdir "+work_folder, shell=True )
-        except:
-            print("couldnt create working Dir")
-            sys.exit(0)
-
+        shellcmd("mkdir "+work_folder, shell=True)
+        
     #creating Z files with Y size
 
     for i in range(int(args.z)):
-        try:
-            subprocess.run("base64 /dev/urandom | head -c "+args.y+">"+work_folder+"/"+str(i)+".dat",check=True, shell=True)
-        except Exception as e:
-            print(e)
-            sys.exit(0)
+        shellcmd("base64 /dev/urandom | head -c "+args.y+">"+work_folder+"/"+str(i)+".dat")
 
     #copy with dd
     for i in range(int(args.z)):
         print("Working with "+str(i)+".dat")
-        try:
-            time = subprocess.run("dd if="+work_folder+"/"+str(i)+".dat of="+work_folder+"/"+str(i)+"_new.dat",shell=True,stdout=subprocess.PIPE, stderr=subprocess.STDOUT,check=True)
-            print(str(time.stdout).split(',')[2])
-        except Exeption as e:
-            print('smth wrong')
-            sys.exit(0)
+        time = shellcmd("dd if="+work_folder+"/"+str(i)+".dat of="+work_folder+"/"+str(i)+"_new.dat")
+        print(str(time.stdout).split(',')[2])
+        
