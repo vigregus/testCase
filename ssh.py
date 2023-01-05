@@ -2,14 +2,16 @@ import argparse
 import subprocess
 from threading import Thread
 
+
 def sshConnect(hosts,user,password,cmd):
     try:
         cmd = subprocess.run([
-                             "sshpass -p "+password+" ssh -o StrictHostKeyChecking=no -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null "+user+"@"+hosts+" "+cmd],
-                         shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                "sshpass -p "+password+" ssh -o StrictHostKeyChecking=no -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null "+user+"@"+hosts+" "+cmd],
+                shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         print(cmd.stdout)
     except Exception as e:
         print(e)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -19,11 +21,6 @@ if __name__ == '__main__':
     parser.add_argument('--password', action='store', required=True, dest='password', help='password')
     parser.add_argument('--cmd', action='store', required=True, dest='cmd', help='cmd name')
     args = parser.parse_args()
-
-#    print(args.hosts)
-#    print(args.password)
-#    print(args.cmd)
     for ip in args.hosts.split(','):
-        #sshConnect(ip, args.user, args.password, args.cmd)
-        print("connecting to ",ip)
-        Thread(target=sshConnect,args=(ip,args.user, args.password, args.cmd,)).start()
+        print("connecting to ", ip)
+        Thread(target=sshConnect, args=(ip, args.user, args.password, args.cmd,)).start()
