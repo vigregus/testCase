@@ -3,6 +3,7 @@ import subprocess
 import shutil
 import psutil
 import sys
+import os
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -37,12 +38,13 @@ if __name__ == '__main__':
         work_folder =  mount_point+"/data"
 
     print("Work folder is: "+work_folder)
-    try:
-        subprocess.run("mkdir "+work_folder, shell=True )
-    except:
-        print("couldnt create working Dir")
-        sys.exit(0)
-    
+    if not os.path.isdir(work_folder):
+        try:
+            subprocess.run("mkdir "+work_folder, shell=True )
+        except:
+            print("couldnt create working Dir")
+            sys.exit(0)
+
     #creating Z files with Y size
 
     for i in range(int(args.z)):
