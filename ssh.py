@@ -1,5 +1,6 @@
 import argparse
 import subprocess
+from threading import Thread
 
 def sshConnect(hosts,user,password,cmd):
     cmd = subprocess.run([
@@ -24,4 +25,5 @@ if __name__ == '__main__':
     print(args.password)
     print(args.cmd)
     for ip in args.hosts.split(','):
-        sshConnect(ip, args.user, args.password, args.cmd)
+        #sshConnect(ip, args.user, args.password, args.cmd)
+        Thread(target=sshConnect,args=(ip,args.user, args.password, args.cmd,)).start()
