@@ -1,6 +1,6 @@
 all tests were completed on Ubuntu 
 ### How to Run ssh.py ###
-python3 ssh.py --action connect --hosts 178.218.216.142,1.1.1.1,178.218.210.38 --password <password> --user <user> --cmd /tmp/1.sh
+python3 ssh.py --hosts 2.2.2.2,1.1.1.1,3.3.3.3 --password <password> --user <user> --cmd /tmp/1.sh
 
 ###in order to check parrallel runs, it is needed to create the following script### 
 cat <<EOF > /tmp/1.sh
