@@ -1,4 +1,5 @@
 import argparse
+import time as t
 import subprocess
 import shutil
 import psutil
@@ -46,7 +47,7 @@ if __name__ == '__main__':
 
     print("Work folder is: "+work_folder)
     if not os.path.isdir(work_folder):
-        shellcmd("mkdir "+work_folder, shell=True)
+        shellcmd("mkdir "+work_folder)
         
     #creating Z files with Y size
 
@@ -54,8 +55,13 @@ if __name__ == '__main__':
         shellcmd("base64 /dev/urandom | head -c "+args.y+">"+work_folder+"/"+str(i)+".dat")
 
     #copy with dd
+    start_time = t.time()
+    
     for i in range(int(args.z)):
         print("Working with "+str(i)+".dat")
         time = shellcmd("dd if="+work_folder+"/"+str(i)+".dat of="+work_folder+"/"+str(i)+"_new.dat")
         print(str(time.stdout).split(',')[2])
-        
+
+    end_time = t.time()
+    total_time = end_time-start_time
+    print("Total Time,s: ",total_time)
