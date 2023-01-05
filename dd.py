@@ -48,13 +48,18 @@ if __name__ == '__main__':
     #creating Z files with Y size
 
     for i in range(int(args.z)):
-        subprocess.call("base64 /dev/urandom | head -c "+args.y+">"+work_folder+"/"+str(i)+".dat",shell=True)
-    
+        try:
+            subprocess.run("base64 /dev/urandom | head -c "+args.y+">"+work_folder+"/"+str(i)+".dat",check=True, shell=True)
+        except Exception as e:
+            print(e)
+            sys.exit(0)
+
     #copy with dd
     for i in range(int(args.z)):
         print("Working with "+str(i)+".dat")
         try:
-            time = subprocess.run("dd if="+work_folder+"/"+str(i)+".dat of="+work_folder+"/"+str(i)+"_new.dat",shell=True,stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            time = subprocess.run("dd if="+work_folder+"/"+str(i)+".dat of="+work_folder+"/"+str(i)+"_new.dat",shell=True,stdout=subprocess.PIPE, stderr=subprocess.STDOUT,check=True)
             print(str(time.stdout).split(',')[2])
-        except:
+        except Exeption as e:
             print('smth wrong')
+            sys.exit(0)
